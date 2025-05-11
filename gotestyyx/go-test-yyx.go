@@ -8,10 +8,15 @@ import (
 type GoTestYyx struct {
 }
 
-func (goTestYyx GoTestYyx) Run(funcname func()) []string {
-	funcname()
-	fn := runtime.FuncForPC(reflect.ValueOf(funcname).Pointer())
-	return []string{
-		fn.Name(),
+func (goTestYyx GoTestYyx) Run(funcnames []func() bool) ([]string, []bool) {
+	//funcname()
+	names := []string{}
+	results := []bool{}
+	for _, funcname := range funcnames {
+		fn := runtime.FuncForPC(reflect.ValueOf(funcname).Pointer())
+		fn.Name()
+		names = append(names, fn.Name())
+		results = append(results, funcname())
 	}
+	return names, results
 }

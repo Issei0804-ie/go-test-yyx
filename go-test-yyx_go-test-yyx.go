@@ -8,7 +8,7 @@ import (
 
 func main() {
 	goTestYyx := gotestyyx.GoTestYyx{}
-	calledTestNames, results := goTestYyx.Run([]func(){
+	calledTestNames, results := goTestYyx.Run([]func() bool{
 		gotestyyx.TestAdd,
 		gotestyyx.TestAdd2,
 	})
@@ -18,13 +18,13 @@ func main() {
 		return
 	}
 
-	if results[0] != nil {
-		fmt.Printf("error: %s", results[0])
+	if results[0] == false {
+		fmt.Printf("error: %s %s", results[0], calledTestNames[0])
 		return
 	}
 
-	if results[1] == nil {
-		fmt.Printf("error: %s", results[1])
+	if results[1] == true {
+		fmt.Printf("error: %s %s", results[1], calledTestNames[1])
 		return
 	}
 
